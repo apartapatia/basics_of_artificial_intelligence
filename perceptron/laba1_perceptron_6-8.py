@@ -32,14 +32,19 @@ print("Выбранная случайно точка:", random_point, "Инде
 
 
 for iteration in range(3):
-    # Прямое распространение
-    output = 1 / (1 + np.exp(-(np.dot(input_data, synaptic_weights))))
-    # Обратное распространение ошибки и коррекция весов
-    synaptic_weights += np.dot(input_data.T, (expected_output - output) * output * (1 - output))
-    # Вычисление и сохранение среднеквадратичной ошибки
-    mse = mean_squared_error(expected_output, output)
-    mse_values.append(mse)
+    for iteration in iterations:
+    	# Прямое распространение
+    	output = 1 / (1 + np.exp(-(np.dot(input_data, synaptic_weights))))
+    	# Обратное распространение ошибки и коррекция весов
+    	synaptic_weights += np.dot(input_data.T, (expected_output - output) * output * (1 - output))
+    	# Вычисление и сохранение среднеквадратичной ошибки
+    	mse = mean_squared_error(expected_output, output)
+    	mse_values.append(mse)
+    	# Сохранение выхода модели для точки X = (1, 0, 0)
+    	outputs_for_X.append(output[5].item())  # Значение выхода для третьего примера (т.е. для X = (1, 0, 0))
+    	# Сохранение выхода модели для случайной выборки
+    	outputs_for_random_points.append(output[random_index].item())
 
-# Вывод финальных значений весовых коэффициентов
-print("Финальные значения весовых коэффициентов:")
-print(synaptic_weights)
+    # Вывод финальных значений весовых коэффициентов
+    print("Финальные значения весовых коэффициентов:")
+    print(synaptic_weights)
